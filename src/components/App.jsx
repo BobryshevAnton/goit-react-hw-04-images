@@ -52,7 +52,7 @@ const App = () => {
       .then(({ hits, totalHits }) => {
         setIsButton(page < Math.ceil(totalHits / 12));
 
-        setCollection([...collection, ...hits]);
+        setCollection(collection => [...collection, ...hits]);
         setIsEmptyCollection(hits.length === 0);
       })
       .catch(error => {
