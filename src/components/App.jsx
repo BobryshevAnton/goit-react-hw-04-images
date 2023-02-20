@@ -41,27 +41,50 @@ const App = () => {
   const handlerCloseModal = () => {
     setIsOpenModal(!true);
   };
-
   useEffect(() => {
     if (searchQuery === '') {
       return;
     }
-    setIsLoadingSpin(true);
-    setIsEmptyText(true);
-    getImages(searchQuery, page)
-      .then(({ hits, totalHits }) => {
+    async function images() {
+      try {
+        setIsLoadingSpin(true);
+        setIsEmptyText(true);
+        const { hits, totalHits } = await getImages(searchQuery, page);
         setIsButton(page < Math.ceil(totalHits / 12));
-
         setCollection(collection => [...collection, ...hits]);
         setIsEmptyCollection(hits.length === 0);
-      })
-      .catch(error => {
+      } catch (error) {
         console.log(error.message);
-      })
-      .finally(() => {
+      } finally {
         setIsLoadingSpin(false);
-      });
-  }, [searchQuery, page]);
+      }
+    }
+    images();
+  }, [page, searchQuery]);
+
+  // useEffect(() => {
+  //   if (searchQuery === '') {
+  //     return;
+  //   }
+  //   setIsLoadingSpin(true);
+  //   setIsEmptyText(true);
+  //   getImages(searchQuery, page)
+  //     .then(({ hits, totalHits }) => {
+  //       setIsButton(page < Math.ceil(totalHits / 12));
+
+  //       setIsEmptyCollection(hits.length === 0);
+  //       if (hits) {
+  //         setCollection([...collection, ...hits]);
+  //         return;
+  //       }
+  //     })
+  //     .catch(error => {
+  //       console.log(error.message);
+  //     })
+  //     .finally(() => {
+  //       setIsLoadingSpin(false);
+  //     });
+  // }, [searchQuery, page, collection]);
 
   // async  componentDidUpdate(_, prevState) {
   //   const { page, searchQuery, collection } = this.state;
