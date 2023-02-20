@@ -1,41 +1,36 @@
-import { Component } from 'react';
 import css from './modal.module.css';
 import PropTypes from 'prop-types';
+import { useEffect } from 'react';
 
-export default class Modal extends Component {
-  closeModal = event => {
+const Modal = ({ handlerCloseModal, largeImageURL, alt }) => {
+  const closeModal = event => {
     if (event.key === 'Escape') {
-      this.props.handlerCloseModal();
+      handlerCloseModal();
     }
   };
-  handlerClickBackdrop = event => {
-    this.props.handlerCloseModal();
+  const handlerClickBackdrop = event => {
+    handlerCloseModal();
   };
 
-  componentDidMount() {
-    window.addEventListener('keydown', this.closeModal);
-  }
+  useEffect(() => {
+    window.addEventListener('keydown', closeModal);
+  });
 
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.closeModal);
-  }
-  render() {
-    const { largeImageURL, alt } = this.props;
-
-    return (
-      <div className={css.modal__backdrop} onClick={this.handlerClickBackdrop}>
-        <div className={css.modal__content}>
-          <img
-            src={largeImageURL}
-            alt={alt}
-            className={css.imageGalleryItem__image}
-          />
-        </div>
+  return (
+    <div className={css.modal__backdrop} onClick={handlerClickBackdrop}>
+      <div className={css.modal__content}>
+        <img
+          src={largeImageURL}
+          alt={alt}
+          className={css.imageGalleryItem__image}
+        />
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
+
 Modal.propTypes = {
   largeImageURL: PropTypes.string,
   alt: PropTypes.string,
 };
+export default Modal;

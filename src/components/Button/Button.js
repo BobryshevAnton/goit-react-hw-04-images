@@ -1,20 +1,18 @@
 import React from 'react';
-import { Component } from 'react';
 
 import css from './button.module.css';
 
-export default class Button extends Component {
-  onClick = () => {
-    this.props.loadMore();
+const Button = ({ loadMore }) => {
+  const onClick = () => {
+    loadMore();
   };
 
-  render() {
-    return (
-      <footer className={css.footerSection}>
-        <button type="button" className={css.button} onClick={this.onClick}>
-          Load More
-        </button>
-      </footer>
-    );
-  }
-}
+  return (
+    <footer className={css.footerSection}>
+      <button type="button" className={css.button} onClick={onClick}>
+        Load More
+      </button>
+    </footer>
+  );
+};
+export default Button;
