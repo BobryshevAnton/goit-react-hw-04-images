@@ -3,18 +3,26 @@ import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 
 const Modal = ({ handlerCloseModal, largeImageURL, alt }) => {
-  const closeModal = event => {
-    if (event.key === 'Escape') {
+  //
+  useEffect(() => {
+    const closeModal = event => {
+      if (event.key === 'Escape') {
+        handlerCloseModal();
+      }
+    };
+
+    window.addEventListener('keydown', closeModal);
+
+    return () => {
+      window.removeEventListener('keydown', closeModal);
+    };
+  }, [handlerCloseModal]);
+
+  const handlerClickBackdrop = e => {
+    if (e.currentTarget === e.target) {
       handlerCloseModal();
     }
   };
-  const handlerClickBackdrop = event => {
-    handlerCloseModal();
-  };
-
-  useEffect(() => {
-    window.addEventListener('keydown', closeModal);
-  });
 
   return (
     <div className={css.modal__backdrop} onClick={handlerClickBackdrop}>
