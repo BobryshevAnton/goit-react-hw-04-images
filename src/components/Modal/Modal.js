@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 
 const Modal = ({ handlerCloseModal, largeImageURL, alt }) => {
-  //
   useEffect(() => {
     const closeModal = event => {
       if (event.key === 'Escape') {
